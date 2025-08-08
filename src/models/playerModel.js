@@ -1,12 +1,12 @@
 
 class Player {
-  #cards;
+  #cards=[];
   constructor(name) {
     this.playerName = name;
   }
 
-  set recieveCards(cards = []) {
-    this.#cards = cards;
+   recieveCards(card) {
+    this.#cards.push(card);
   }
 }
 
