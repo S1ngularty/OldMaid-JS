@@ -15,7 +15,7 @@ const user = new Player("P1");
 const deck = new Deck()
 let playerCount;
 let bots = [];
-
+deck.prepareDeck()
 
 async function selectPlayer() {
   return new Promise((resolve, reject) => {
@@ -29,6 +29,6 @@ async function selectPlayer() {
 }
 
 bots = generatePlayers(await selectPlayer())
-console.log(bots);
+// console.log(bots);
 
-
+console.log(deck.shuffleDeck)
