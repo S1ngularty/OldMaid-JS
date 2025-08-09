@@ -5,7 +5,7 @@ class Deck extends Card {
   #oldMaidCard;
   #shuffleDeck = [];
   #fullCard = [];
-  #cardToDraw = [];
+  cardToDraw = [];
 
   _initCard() {
     this.#fullCard = [];
@@ -23,18 +23,18 @@ class Deck extends Card {
   }
 
   _prepareDeckWithRemoveOldMaid() {
-    this.#cardToDraw = [];
-    let temp = this.#fullCard;
-    let index = Math.floor(Math.random() * (temp.length));
+    this.cardToDraw = [];
+    let temp = [...this.#fullCard];
+    let index = Math.floor(Math.random() * temp.length);
     this.#oldMaidCard = temp.splice(index, 1)[0];
-    this.#cardToDraw = temp;
+    this.cardToDraw = temp;
   }
 
   _shuffleDeck() {
-    let temp = this.#cardToDraw;
+    let temp = [...this.cardToDraw];
     this.#shuffleDeck = [];
     for (let i = temp.length - 1; i >= 0; i--) {
-      let index = Math.floor(Math.random() * (temp.length));
+      let index = Math.floor(Math.random() * temp.length);
       this.#shuffleDeck.push(temp.splice(index, 1)[0]);
     }
   }
@@ -43,7 +43,7 @@ class Deck extends Card {
     return this.#oldMaidCard;
   }
   get cardToDraw() {
-    return this.#cardToDraw;
+    return this.cardToDraw;
   }
 
   get shuffleDeck() {
