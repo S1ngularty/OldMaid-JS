@@ -1,11 +1,11 @@
 import Player from "./playerModel.js";
 import Deck from "./deckModel.js";
-import { randDigit, createPlayer, initCards } from "../services/gameService.js";
+import { randDigit, createPlayer, initCards,resetTable} from "../services/gameService.js";
 
 class Game {
   deck = new Deck();
   #players = [];
-  #humanPlayer;
+  #humanPlayer={};
 
   setupPlayers(numPlayer) {
     for (let i = 0; i < numPlayer; i++) {
@@ -25,12 +25,12 @@ class Game {
     this.deck.prepareDeck();
     this._drawCards();
     this._initPlayer();
-    this._setMainPlayer()
+    this._setMainPlayer();
   }
 
   _drawCards() {
     let currPlayer = 0;
-    let shuffleDeck = this.deck.shuffleDeck
+    let shuffleDeck = this.deck.shuffleDeck;
     for (let i = 0; i < shuffleDeck.length; i++) {
       this.#players[currPlayer].recieveCards(shuffleDeck[i]);
       currPlayer++;
@@ -40,7 +40,14 @@ class Game {
 
   async _setMainPlayer() {
     let index = await randDigit(0, this.#players.length - 1);
-    this.#humanPlayer =this.#players.splice(index, 1)[0];
+    this.#humanPlayer = this.#players.splice(index, 1)[0];
+  }
+
+  gameReset() {
+    this.deck = new Deck();
+    this.#players = [];
+    this.#humanPlayer={};
+    resetTable()
   }
 }
 

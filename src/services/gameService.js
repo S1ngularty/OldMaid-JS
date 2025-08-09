@@ -65,4 +65,12 @@ function parseCardIcon(cardSuit) {
   return result
 }
 
-export { randDigit, createPlayer, drawCards, initCards };
+function resetTable (){
+  let table = document.getElementById('table')
+  let players = document.querySelectorAll('.player')
+  players.forEach(player=>{
+    player.remove()
+  })
+}
+
+export { randDigit, createPlayer, drawCards, initCards,resetTable };

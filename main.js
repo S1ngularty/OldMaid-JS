@@ -1,23 +1,20 @@
 import Game from "./src/models/GameModel.js";
 import { getInput } from "./src/utils/gameIO.js";
 
-const game = new Game();
 let playerCount;
-
-async function selectPlayer() {
-  return new Promise((resolve, reject) => {
-    document.querySelectorAll("#player-selection > *").forEach((child) => {
-      child.addEventListener("click", (e) => {
-        e.preventDefault();
-        resolve(e.target.getAttribute("id"));
-      });
-    });
+ const game = new Game();
+document.querySelectorAll("#player-selection > *").forEach((child) => {
+  child.addEventListener("click", (e) => {
+    e.preventDefault();
+    playerCount = e.target.getAttribute("id");
+    game.gameReset()
+    initGame()
   });
+});
+
+async function initGame() {
+  game.setupPlayers(playerCount);
+  await game.gameStart();
+
+  console.log(game);
 }
-
-playerCount = await selectPlayer();
-game.setupPlayers(playerCount)
-await game.gameStart()
-
-
-console.log(game)
