@@ -11,6 +11,7 @@ body {
 
 .hand {
     display: flex;
+    flex-wrap: wrap; /* ✅ allow wrapping */
     gap: 10px;
 }
 
@@ -25,21 +26,40 @@ body {
     justify-content: center;
     align-items: center;
     font-weight: bold;
+    font-size: small;
 }
 
-#player-selection{
+/* Player selection buttons */
+#player-selection {
     display: flex;
-    flex-direction: row;
-    gap: 50px;
+    flex-wrap: wrap; /* ✅ wrap when needed */
+    gap: 20px;
     justify-content: center;
 }
 
 #player-selection button {
-    height: 50px;
-    width: 150px;
-    max-width: 500px;
+    flex: 1 1 150px; /* ✅ grows/shrinks with space, min size 150px */
+    max-width: 200px;
     padding: 10px;
     text-align: center;
-    border: white;
+    border: none;
     border-radius: 5%;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ✅ Mobile adjustments */
+@media (max-width: 600px) {
+    .card {
+        width: 50px;
+        height: 75px;
+        font-size: x-small;
+    }
+
+    #player-selection button {
+        flex: 1 1 100px;
+        max-width: 150px;
+    }
 }

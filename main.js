@@ -2,7 +2,7 @@ import Player from "./src/models/playerModel.js";
 import Hand from "./src/models/handModel.js";
 import Card from "./src/models/cardModel.js";
 import Deck from "./src/models/deckModel.js";
-import { generatePlayers } from "./src/services/playerService.js";
+import { generatePlayers,initCards } from "./src/services/playerService.js";
 import { getInput } from "./src/utils/gameIO.js";
 import { randDigit,createPlayer,drawCards } from "./src/services/gameService.js";
 
@@ -31,6 +31,7 @@ await drawCards(toDraw,bots)
 
 bots.forEach(player=>{
   createPlayer(player.playerName)
+  initCards(player.playerName,player.cards)
 })
 
 let index = await randDigit(0, bots.length - 1);

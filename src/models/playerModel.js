@@ -8,6 +8,10 @@ class Player {
    recieveCards(card) {
     this.#cards.push(card);
   }
+
+  get cards(){
+    return this.#cards
+  }
 }
 
 export default Player;
