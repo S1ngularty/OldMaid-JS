@@ -4,7 +4,6 @@ class Deck extends Card {
   #standardDeck = 52;
   #oldMaidCard;
   #shuffleDeck = [];
-  #cardWithoutOldMaid;
   #fullCard = [];
   #cardToDraw = [];
 
