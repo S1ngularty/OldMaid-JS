@@ -1,13 +1,19 @@
 import Player from "./playerModel.js";
 import Deck from "./deckModel.js";
-import { randDigit, createPlayer, initCards,resetTable} from "../services/gameService.js";
+import {
+  randDigit,
+  createPlayer,
+  initCards,
+  resetTable,
+} from "../services/gameService.js";
 
 class Game {
   deck = new Deck();
   #players = [];
-  #humanPlayer={};
+  #humanPlayer = {};
 
   setupPlayers(numPlayer) {
+    this.#players = [];
     for (let i = 0; i < numPlayer; i++) {
       this.#players.push(new Player("P" + (i + 1)));
     }
@@ -22,6 +28,7 @@ class Game {
   }
 
   async gameStart() {
+    this.gameReset();
     this.deck.prepareDeck();
     this._drawCards();
     this._initPlayer();
@@ -32,7 +39,8 @@ class Game {
     let currPlayer = 0;
     let shuffleDeck = this.deck.shuffleDeck;
     for (let i = 0; i < shuffleDeck.length; i++) {
-      this.#players[currPlayer].recieveCards(shuffleDeck[i]);
+      // console.log(this.#players[])
+      this.#players[currPlayer].receiveCards(shuffleDeck[i]);
       currPlayer++;
       if (currPlayer >= this.#players.length) currPlayer = 0;
     }
@@ -45,9 +53,8 @@ class Game {
 
   gameReset() {
     this.deck = new Deck();
-    this.#players = [];
-    this.#humanPlayer={};
-    resetTable()
+    this.#humanPlayer = {};
+    resetTable();
   }
 }
 

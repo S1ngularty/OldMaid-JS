@@ -5,7 +5,7 @@ class Player {
     this.playerName = name;
   }
 
-   recieveCards(card) {
+   receiveCards(card) {
     this.#cards.push(card);
   }
 

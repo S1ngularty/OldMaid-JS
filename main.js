@@ -7,7 +7,6 @@ document.querySelectorAll("#player-selection > *").forEach((child) => {
   child.addEventListener("click", (e) => {
     e.preventDefault();
     playerCount = e.target.getAttribute("id");
-    game.gameReset()
     initGame()
   });
 });
