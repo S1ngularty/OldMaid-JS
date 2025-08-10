@@ -5,12 +5,14 @@ import {
   createPlayer,
   initCards,
   resetTable,
+  getCardFromDealer
 } from "../services/gameService.js";
 
 class Game {
   deck = new Deck();
   #players = [];
   #humanPlayer = {};
+  #playerWon =false;
 
   setupPlayers(numPlayer) {
     this.#players = [];
@@ -41,6 +43,16 @@ class Game {
     this._allPlayerDiscardingPiles()
     this._initPlayer();
     this._setMainPlayer();
+  }
+
+  async gameTurns(){
+    let i=0
+    while(!this.#playerWon){
+      console.log(i)
+     let cardFromDealer = await getCardFromDealer()
+     console.log(cardFromDealer)
+     i++
+    }
   }
 
   _drawCards() {

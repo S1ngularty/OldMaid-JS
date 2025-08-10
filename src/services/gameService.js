@@ -3,6 +3,18 @@ async function randDigit(min, max) {
   return randNum;
 }
 
+async function getCardFromDealer() {
+ let val = await new Promise((resolve, reject) => {
+    document.getElementById("table").addEventListener("click", (e) => {
+      e.preventDefault();
+      let target = e.target;
+      resolve(target.dataset.card);
+    });
+  });
+
+  return val
+}
+
 function createPlayer(playerName) {
   let id = playerName.charAt(1);
   let table = document.querySelector("#table");
@@ -37,40 +49,46 @@ function initCards(player, cards) {
   let playerHand = main.querySelector(".hand");
 
   cards.forEach((card) => {
-    let cardSplit = card.split(" ")
+    let cardSplit = card.split(" ");
     let cardElement = document.createElement("div");
     cardElement.className = "card";
-    let cardIcon = parseCardIcon(cardSplit[1].trim())
-    cardElement.textContent=`${cardSplit[0]} ${cardIcon}`
-    playerHand.append(cardElement)
+    cardElement.dataset.card = card;
+    let cardIcon = parseCardIcon(cardSplit[1].trim());
+    cardElement.textContent = `${cardSplit[0]} ${cardIcon}`;
+    playerHand.append(cardElement);
+
+    cardElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      cardElement.classList.toggle("selected");
+    });
   });
 }
 
 function parseCardIcon(cardSuit) {
-  let result
+  let result;
   switch (cardSuit) {
     case "diamond":
-      return result= "\u2666";
+      return (result = "\u2666");
       break;
     case "spade":
-      return result= "\u2660";
+      return (result = "\u2660");
       break;
     case "club":
-      return result= "\u2663";
+      return (result = "\u2663");
       break;
     case "heart":
-      return result= "\u2663";
+      return (result = "\u2665");
       break;
   }
-  return result
+  return result;
 }
 
-function resetTable (){
-  let table = document.getElementById('table')
-  let players = document.querySelectorAll('.player')
-  players.forEach(player=>{
-    player.remove()
-  })
+function resetTable() {
+  let table = document.getElementById("table");
+  let players = document.querySelectorAll(".player");
+  players.forEach((player) => {
+    player.remove();
+  });
 }
 
-export { randDigit, createPlayer, drawCards, initCards,resetTable };
+export { randDigit, createPlayer, drawCards, initCards, resetTable,getCardFromDealer };

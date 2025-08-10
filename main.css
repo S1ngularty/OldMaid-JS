@@ -6,12 +6,12 @@ body {
 }
 
 .player {
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 .hand {
     display: flex;
-    flex-wrap: wrap; /* ✅ allow wrapping */
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -27,18 +27,38 @@ body {
     align-items: center;
     font-weight: bold;
     font-size: small;
+    cursor: pointer; /* Make it feel clickable */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth animations */
 }
 
-/* Player selection buttons */
+/* Hover effect: slightly lift and shadow */
+.card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Active (click) effect: press down slightly */
+.card:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Selected state — add a green border and subtle glow */
+.card.selected {
+    border: 2px solid limegreen;
+    box-shadow: 0 0 10px rgba(50, 205, 50, 0.8);
+}
+
+
 #player-selection {
     display: flex;
-    flex-wrap: wrap; /* ✅ wrap when needed */
+    flex-wrap: wrap; 
     gap: 20px;
     justify-content: center;
 }
 
 #player-selection button {
-    flex: 1 1 150px; /* ✅ grows/shrinks with space, min size 150px */
+    flex: 1 1 150px; 
     max-width: 200px;
     padding: 10px;
     text-align: center;
@@ -50,7 +70,16 @@ body {
     cursor: pointer;
 }
 
-/* ✅ Mobile adjustments */
+#player-selection button:hover{
+    background-color: green;
+    color: #fff;
+}
+
+#player-selection .active{
+    background-color: green;
+    color: #fff;
+}
+
 @media (max-width: 600px) {
     .card {
         width: 50px;
