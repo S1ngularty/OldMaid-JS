@@ -19,6 +19,13 @@ class Game {
     }
   }
 
+  _allPlayerDiscardingPiles() {
+    this.#players.forEach((player) => {
+      player.sortCard();
+      player.discardPile();
+    });
+  }
+
   _initPlayer() {
     this.#players.forEach((player) => {
       let name = player.playerName;
@@ -31,6 +38,7 @@ class Game {
     this.gameReset();
     this.deck.prepareDeck();
     this._drawCards();
+    this._allPlayerDiscardingPiles()
     this._initPlayer();
     this._setMainPlayer();
   }
