@@ -1,94 +1,109 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #2c2c2c;
-    color: white;
-    padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #2c2c2c;
+  color: white;
+  padding: 20px;
 }
 
 .player {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 .hand {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .card {
-    width: 60px;
-    height: 90px;
-    background: white;
-    color: black;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: small;
-    cursor: pointer; /* Make it feel clickable */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth animations */
+  width: 60px;
+  height: 90px;
+  background: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: small;
+  cursor: pointer; /* Make it feel clickable */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth animations */
 }
 
 /* Hover effect: slightly lift and shadow */
 .card:hover {
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Active (click) effect: press down slightly */
 .card:active {
-    transform: translateY(2px) scale(0.98);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Selected state — add a green border and subtle glow */
 .card.selected {
-    border: 2px solid limegreen;
-    box-shadow: 0 0 10px rgba(50, 205, 50, 0.8);
+  border: 2px solid limegreen;
+  box-shadow: 0 0 10px rgba(50, 205, 50, 0.8);
 }
 
-
 #player-selection {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 20px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 #player-selection button {
-    flex: 1 1 150px; 
-    max-width: 200px;
-    padding: 10px;
-    text-align: center;
-    border: none;
-    border-radius: 5%;
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
+  flex: 1 1 150px;
+  max-width: 200px;
+  padding: 10px;
+  text-align: center;
+  border: none;
+  border-radius: 5%;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-#player-selection button:hover{
-    background-color: green;
-    color: #fff;
+#player-selection button:hover {
+  background-color: green;
+  color: #fff;
 }
 
-#player-selection .active{
-    background-color: green;
-    color: #fff;
+#player-selection .active {
+  background-color: green;
+  color: #fff;
+}
+
+#table .player .active {
+  color: white;
+  -webkit-text-stroke: 1px yellow; /* green border around text */
+  text-shadow: 0 0 5px rgba(215, 235, 29, 0.8), 0 0 10px rgba(215, 235, 29, 0.8),
+    0 0 20px rgba(215, 235, 29, 1);
+}
+.fade-in {
+  opacity: 0;
+  transition: opacity 0.8s ease-in; /* smooth fade */
+}
+
+/* When active */
+.show {
+  opacity: 1;
 }
 
 @media (max-width: 600px) {
-    .card {
-        width: 50px;
-        height: 75px;
-        font-size: x-small;
-    }
+  .card {
+    width: 50px;
+    height: 75px;
+    font-size: x-small;
+  }
 
-    #player-selection button {
-        flex: 1 1 100px;
-        max-width: 150px;
-    }
+  #player-selection button {
+    flex: 1 1 100px;
+    max-width: 150px;
+  }
 }
