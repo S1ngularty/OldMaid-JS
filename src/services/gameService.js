@@ -4,7 +4,7 @@ async function randDigit(min, max) {
 }
 
 async function getCardFromDealer() {
- let val = await new Promise((resolve, reject) => {
+  let val = await new Promise((resolve, reject) => {
     document.getElementById("table").addEventListener("click", (e) => {
       e.preventDefault();
       let target = e.target;
@@ -12,7 +12,7 @@ async function getCardFromDealer() {
     });
   });
 
-  return val
+  return val;
 }
 
 function createPlayer(playerName) {
@@ -20,7 +20,7 @@ function createPlayer(playerName) {
   let table = document.querySelector("#table");
   let main = document.createElement("div");
 
-  main.id = `player${id}`;
+  main.id = playerName;
   main.className = "player";
 
   let playerLabel = document.createElement("h2");
@@ -33,35 +33,36 @@ function createPlayer(playerName) {
   table.append(main);
 }
 
-async function drawCards(cards, players) {
-  let currPlayer = 0;
-  for (let i = 0; i < cards.length; i++) {
-    players[currPlayer].recieveCards(cards[i]);
-    currPlayer++;
-    if (currPlayer >= players.length) currPlayer = 0;
-  }
-  return true;
-}
 
 function initCards(player, cards) {
-  let playerId = `player${player.charAt(1)}`;
+  let playerId = player;
   let main = document.querySelector(`#${playerId}`);
   let playerHand = main.querySelector(".hand");
 
   cards.forEach((card) => {
-    let cardSplit = card.split(" ");
-    let cardElement = document.createElement("div");
-    cardElement.className = "card";
-    cardElement.dataset.card = card;
-    let cardIcon = parseCardIcon(cardSplit[1].trim());
-    cardElement.textContent = `${cardSplit[0]} ${cardIcon}`;
-    playerHand.append(cardElement);
-
-    cardElement.addEventListener("click", (e) => {
-      e.preventDefault();
-      cardElement.classList.toggle("selected");
-    });
+    let divCard = createCard(card);
+    playerHand.append(divCard);
+    setTimeout(()=>{
+      divCard.classList.add('show')
+    },50)
   });
+}
+
+function createCard(card) {
+  let cardSplit = card.split(" ");
+  let cardElement = document.createElement("div");
+  cardElement.className = "card";
+  cardElement.dataset.card = card;
+  cardElement.classList.add('fade-in')
+  let cardIcon = parseCardIcon(cardSplit[1].trim());
+  cardElement.textContent = `${cardSplit[0]} ${cardIcon}`;
+
+  cardElement.addEventListener("click", (e) => {
+    e.preventDefault();
+    cardElement.classList.toggle("selected");
+  });
+
+  return cardElement
 }
 
 function parseCardIcon(cardSuit) {
@@ -91,4 +92,11 @@ function resetTable() {
   });
 }
 
-export { randDigit, createPlayer, drawCards, initCards, resetTable,getCardFromDealer };
+export {
+  randDigit,
+  createPlayer,
+  initCards,
+  resetTable,
+  getCardFromDealer,
+  createCard
+};

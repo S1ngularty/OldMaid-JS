@@ -1,18 +1,20 @@
 import Player from "./playerModel.js";
 import Deck from "./deckModel.js";
+import { markMainPlayer } from "../services/playerService.js";
 import {
   randDigit,
   createPlayer,
   initCards,
   resetTable,
-  getCardFromDealer
+  getCardFromDealer,
+  createCard,
 } from "../services/gameService.js";
 
 class Game {
   deck = new Deck();
   #players = [];
   #humanPlayer = {};
-  #playerWon =false;
+  #playerWon = false;
 
   setupPlayers(numPlayer) {
     this.#players = [];
@@ -21,14 +23,7 @@ class Game {
     }
   }
 
-  _allPlayerDiscardingPiles() {
-    this.#players.forEach((player) => {
-      player.sortCard();
-      player.discardPile();
-    });
-  }
-
-  _initPlayer() {
+  _initPlayers() {
     this.#players.forEach((player) => {
       let name = player.playerName;
       createPlayer(name);
@@ -40,18 +35,32 @@ class Game {
     this.gameReset();
     this.deck.prepareDeck();
     this._drawCards();
-    this._allPlayerDiscardingPiles()
-    this._initPlayer();
+    this._initPlayers();
     this._setMainPlayer();
   }
 
-  async gameTurns(){
-    let i=0
-    while(!this.#playerWon){
-      console.log(i)
-     let cardFromDealer = await getCardFromDealer()
-     console.log(cardFromDealer)
-     i++
+  async gameTurns() {
+    while (!this.#playerWon) {
+      let i = 0;
+
+      for (let player of this.#players) {
+        let dealer =
+          i === this.#players.length - 1
+            ? this.#players[0]
+            : this.#players[i + 1];
+
+        if (player.playerName === this.#humanPlayer.playerName) {
+          console.log("Dealer",dealer)
+          await this.#humanPlayer.getCardFromDealer()
+          console.log(this.#humanPlayer)
+        } else {
+          console.log("Opponent dealer", dealer);
+        }
+        console.log(
+          "========================================================="
+        );
+        i++;
+      }
     }
   }
 
@@ -68,7 +77,8 @@ class Game {
 
   async _setMainPlayer() {
     let index = await randDigit(0, this.#players.length - 1);
-    this.#humanPlayer = this.#players.splice(index, 1)[0];
+    this.#humanPlayer = this.#players[index];
+    markMainPlayer(this.#humanPlayer.playerName);
   }
 
   gameReset() {
