@@ -50,9 +50,11 @@ class Game {
             : this.#players[i + 1];
 
         if (player.playerName === this.#humanPlayer.playerName) {
-          console.log("Dealer",dealer)
-          await this.#humanPlayer.getCardFromDealer()
-          console.log(this.#humanPlayer)
+          console.log("Dealer", dealer);
+          let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
+          await dealer.removeCard(cardFromDealer);
+          console.log(cardFromDealer);
+          console.log("human", this.#humanPlayer);
         } else {
           console.log("Opponent dealer", dealer);
         }

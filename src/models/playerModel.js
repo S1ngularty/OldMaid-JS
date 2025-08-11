@@ -44,9 +44,20 @@ class Player {
     return this.#playerCards;
   }
 
+  async removeCard(card) {
+    return new Promise((resolve, reject) => {
+      console.log("remove card ", card);
+      let index = this.#playerCards.indexOf(card);
+      console.log(index);
+      if (index >= 0) this.#playerCards.splice(index, 1);
+      resolve(true)
+    });
+  }
+
   async getCardFromDealer() {
     let cardFromDealer = await getCardFromDealer();
     this.receiveCards(cardFromDealer);
+    return cardFromDealer;
   }
 
   get cards() {
