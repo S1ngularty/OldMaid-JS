@@ -61,12 +61,14 @@ class Game {
           await dealer.removeCard(cardFromDealer);
           await player.discardPile();
         } else {
-          let max = player.cards.length - 2 < 0 ? 0 : player.cards.length - 2;
+          let max = dealer.cards.length - 1 < 0 ? 0 : dealer.cards.length - 1;
           let cardFromDealer = await randDigit(0, max);
           console.log("bot digit guess digit range ", max);
           console.log("bot digit guess", max);
-          player.receiveCards(dealer.cards[cardFromDealer]);
-          await dealer.removeCard(dealer.cards[cardFromDealer]);
+          let cardReceive =dealer.cards[cardFromDealer]
+          console.log("recieved",cardReceive)
+          await player.receiveCards(cardReceive);
+          await dealer.removeCard(cardReceive);
           player.discardPile();
         }
         console.log(
