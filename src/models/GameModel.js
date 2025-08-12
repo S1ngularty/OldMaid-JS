@@ -4,10 +4,10 @@ import { markMainPlayer } from "../services/playerService.js";
 import {
   randDigit,
   createPlayer,
-  initCards,
   resetTable,
   getCardFromDealer,
   createCard,
+  removePairCards,
 } from "../services/gameService.js";
 
 class Game {
@@ -27,16 +27,22 @@ class Game {
     this.#players.forEach((player) => {
       let name = player.playerName;
       createPlayer(name);
-      initCards(name, player.cards);
     });
   }
 
   async gameStart() {
     this.gameReset();
     this.deck.prepareDeck();
-    this._drawCards();
     this._initPlayers();
+    await this._drawCards();
+    this.discardingPiles();
     this._setMainPlayer();
+  }
+
+  discardingPiles() {
+    this.#players.forEach((player) => {
+      player.discardPile();
+    });
   }
 
   async gameTurns() {
@@ -48,30 +54,38 @@ class Game {
           i === this.#players.length - 1
             ? this.#players[0]
             : this.#players[i + 1];
-
+        console.log("Opponent dealer", dealer);
+        console.log("Current Player ", player);
         if (player.playerName === this.#humanPlayer.playerName) {
-          console.log("Dealer", dealer);
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
           await dealer.removeCard(cardFromDealer);
-          console.log(cardFromDealer);
-          console.log("human", this.#humanPlayer);
+          await player.discardPile();
         } else {
-          console.log("Opponent dealer", dealer);
+          let max = player.cards.length - 2 < 0 ? 0 : player.cards.length - 2;
+          let cardFromDealer = await randDigit(0, max);
+          console.log("bot digit guess digit range ", max);
+          console.log("bot digit guess", max);
+          player.receiveCards(dealer.cards[cardFromDealer]);
+          await dealer.removeCard(dealer.cards[cardFromDealer]);
+          player.discardPile();
         }
         console.log(
-          "========================================================="
+          "========================================================================================"
         );
         i++;
+        console.log("player card", player.cards);
+        if (player.cards.length < 1) this.#playerWon = true;
       }
     }
   }
 
-  _drawCards() {
+  async _drawCards() {
     let currPlayer = 0;
     let shuffleDeck = this.deck.shuffleDeck;
     for (let i = 0; i < shuffleDeck.length; i++) {
       // console.log(this.#players[])
       this.#players[currPlayer].receiveCards(shuffleDeck[i]);
+      this.#players[currPlayer].discardPile();
       currPlayer++;
       if (currPlayer >= this.#players.length) currPlayer = 0;
     }

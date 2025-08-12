@@ -1,3 +1,5 @@
+import { parseCardIcon } from "../utils/parseCard.js";
+
 async function randDigit(min, max) {
   let randNum = Math.floor(Math.random() * (max - min + 1)) + min;
   return randNum;
@@ -33,27 +35,16 @@ function createPlayer(playerName) {
   table.append(main);
 }
 
-
-function initCards(player, cards) {
-  let playerId = player;
-  let main = document.querySelector(`#${playerId}`);
+async function createCard(player, card) {
+  console.log(card)
+  let main = document.querySelector(`#${player}`);
   let playerHand = main.querySelector(".hand");
 
-  cards.forEach((card) => {
-    let divCard = createCard(card);
-    playerHand.append(divCard);
-    setTimeout(()=>{
-      divCard.classList.add('show')
-    },50)
-  });
-}
-
-function createCard(card) {
   let cardSplit = card.split(" ");
   let cardElement = document.createElement("div");
   cardElement.className = "card";
   cardElement.dataset.card = card;
-  cardElement.classList.add('fade-in')
+  cardElement.classList.add("fade-in");
   let cardIcon = parseCardIcon(cardSplit[1].trim());
   cardElement.textContent = `${cardSplit[0]} ${cardIcon}`;
 
@@ -62,26 +53,21 @@ function createCard(card) {
     cardElement.classList.toggle("selected");
   });
 
-  return cardElement
+  playerHand.append(cardElement);
+  setTimeout(() => {
+    cardElement.classList.add("show");
+  }, 50);
+
+  return cardElement;
 }
 
-function parseCardIcon(cardSuit) {
-  let result;
-  switch (cardSuit) {
-    case "diamond":
-      return (result = "\u2666");
-      break;
-    case "spade":
-      return (result = "\u2660");
-      break;
-    case "club":
-      return (result = "\u2663");
-      break;
-    case "heart":
-      return (result = "\u2665");
-      break;
-  }
-  return result;
+function removePairCards(player, cards) {
+  let main = document.getElementById(player);
+  let hand = main.querySelector(`.hand`);
+  cards.forEach((card) => {
+    let cardElement = hand.querySelector(`[data-card="${card}"]`);
+    cardElement.remove();
+  });
 }
 
 function resetTable() {
@@ -92,11 +78,4 @@ function resetTable() {
   });
 }
 
-export {
-  randDigit,
-  createPlayer,
-  initCards,
-  resetTable,
-  getCardFromDealer,
-  createCard
-};
+export { randDigit, createPlayer, resetTable, getCardFromDealer, createCard,removePairCards };
