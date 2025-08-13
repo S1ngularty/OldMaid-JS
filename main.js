@@ -1,5 +1,5 @@
 import Game from "./src/models/GameModel.js";
-import { getInput } from "./src/utils/gameIO.js";
+import { delay } from "./src/utils/gameAnimation.js";
 
 let playerCount = 2;
 const game = new Game();
