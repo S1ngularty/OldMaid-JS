@@ -38,11 +38,11 @@ class Player {
         this.#playerCards[i].split(" ")[0].trim() ===
         this.#playerCards[i + 1].split(" ")[0].trim()
       ) {
-        console.log(
-          "pair",
-          this.#playerCards[i].split(" ")[0],
-          this.#playerCards[i + 1].split(" ")[0]
-        );
+        // console.log(
+        //   "pair",
+        //   this.#playerCards[i].split(" ")[0],
+        //   this.#playerCards[i + 1].split(" ")[0]
+        // );
 
         let discard = this.#playerCards.splice(i, 2);
         this.#discardPiles.push(discard);
@@ -58,9 +58,9 @@ class Player {
 
   async removeCard(card) {
     return new Promise((resolve, reject) => {
-      console.log("remove card ", card);
+      // console.log("remove card ", card);
       let index = this.#playerCards.indexOf(card);
-      console.log(index);
+      // console.log(index);
       if (index >= 0) {
        this.#playerCards.splice(index, 1);
         removeCardFromHand(this.playerName,card)

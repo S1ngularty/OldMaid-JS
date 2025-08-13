@@ -15,6 +15,7 @@ class Game {
   #players = [];
   #humanPlayer = {};
   #playerWon = false;
+  #playerRanks=[];
 
   setupPlayers(numPlayer) {
     this.#players = [];
@@ -45,6 +46,25 @@ class Game {
     });
   }
 
+  async checkPlayersWithNoCards() {
+    this.#players.forEach((player,i) =>{
+      console.log(player.cards,i)
+      if(player.cards.length == 0){
+        console.log(`Rank ${i} :`, player.playerName)
+        console.log(this.#playerRanks)
+         this.#playerRanks.push(player.playerName)
+         this.#players.splice(i,1)
+      }
+    })
+  }
+
+  checkForThelastPlayer(){
+    if(this.#players.length <2){
+      this.#playerWon=true
+      console.log("loser :", this.#players[0].playerName)
+    }
+  }
+
   async gameTurns() {
     while (!this.#playerWon) {
       let i = 0;
@@ -54,8 +74,6 @@ class Game {
           i === this.#players.length - 1
             ? this.#players[0]
             : this.#players[i + 1];
-        console.log("Opponent dealer", dealer);
-        console.log("Current Player ", player);
         if (player.playerName === this.#humanPlayer.playerName) {
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
           await dealer.removeCard(cardFromDealer);
@@ -63,20 +81,14 @@ class Game {
         } else {
           let max = dealer.cards.length - 1 < 0 ? 0 : dealer.cards.length - 1;
           let cardFromDealer = await randDigit(0, max);
-          console.log("bot digit guess digit range ", max);
-          console.log("bot digit guess", max);
-          let cardReceive =dealer.cards[cardFromDealer]
-          console.log("recieved",cardReceive)
+          let cardReceive = dealer.cards[cardFromDealer];
           await player.receiveCards(cardReceive);
           await dealer.removeCard(cardReceive);
           player.discardPile();
         }
-        console.log(
-          "========================================================================================"
-        );
         i++;
-        console.log("player card", player.cards);
-        if (player.cards.length < 1) this.#playerWon = true;
+        await this.checkPlayersWithNoCards()
+        this.checkForThelastPlayer()
       }
     }
   }
