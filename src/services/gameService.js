@@ -36,7 +36,7 @@ function createPlayer(playerName) {
 }
 
 async function createCard(player, card) {
-  console.log("creating a card ".card)
+  // console.log("creating a card ",card)
   let main = document.querySelector(`#${player}`);
   let playerHand = main.querySelector(".hand");
 
