@@ -9,13 +9,14 @@ import {
   createCard,
   removePairCards,
 } from "../services/gameService.js";
+import { delay } from "../utils/gameAnimation.js";
 
 class Game {
   deck = new Deck();
   #players = [];
   #humanPlayer = {};
   #playerWon = false;
-  #playerRanks=[];
+  #playerRanks = [];
 
   setupPlayers(numPlayer) {
     this.#players = [];
@@ -47,21 +48,20 @@ class Game {
   }
 
   async checkPlayersWithNoCards() {
-    this.#players.forEach((player,i) =>{
-      console.log(player.cards,i)
-      if(player.cards.length == 0){
-        console.log(`Rank ${i} :`, player.playerName)
-        console.log(this.#playerRanks)
-         this.#playerRanks.push(player.playerName)
-         this.#players.splice(i,1)
+    this.#players.forEach((player, i) => {
+      if (player.cards.length == 0) {
+        this.#playerRanks.push(player.playerName);
+        console.log(`Rank ${this.#playerRanks.length} :`, player.playerName);
+        console.log(this.#playerRanks);
+        this.#players.splice(i, 1);
       }
-    })
+    });
   }
 
-  checkForThelastPlayer(){
-    if(this.#players.length <2){
-      this.#playerWon=true
-      console.log("loser :", this.#players[0].playerName)
+  checkForThelastPlayer() {
+    if (this.#players.length < 2) {
+      this.#playerWon = true;
+      console.log("loser :", this.#players[0].playerName);
     }
   }
 
@@ -74,11 +74,13 @@ class Game {
           i === this.#players.length - 1
             ? this.#players[0]
             : this.#players[i + 1];
+        console.log(`${player.playerName}'s turn...`);
         if (player.playerName === this.#humanPlayer.playerName) {
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
           await dealer.removeCard(cardFromDealer);
           await player.discardPile();
         } else {
+          await delay(3000);
           let max = dealer.cards.length - 1 < 0 ? 0 : dealer.cards.length - 1;
           let cardFromDealer = await randDigit(0, max);
           let cardReceive = dealer.cards[cardFromDealer];
@@ -87,8 +89,8 @@ class Game {
           player.discardPile();
         }
         i++;
-        await this.checkPlayersWithNoCards()
-        this.checkForThelastPlayer()
+        await this.checkPlayersWithNoCards();
+        this.checkForThelastPlayer();
       }
     }
   }

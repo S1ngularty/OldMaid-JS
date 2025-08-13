@@ -66,7 +66,11 @@ function removePairCards(player, cards) {
   let hand = main.querySelector(`.hand`);
   cards.forEach((card) => {
     let cardElement = hand.querySelector(`[data-card="${card}"]`);
-    cardElement.remove();
+    cardElement.classList.replace("fade-in", "fade-out");
+    cardElement.classList.replace("show", "remove");
+    setTimeout(() => {
+      cardElement.remove();
+    }, 500);
   });
 }
 
@@ -78,4 +82,11 @@ function resetTable() {
   });
 }
 
-export { randDigit, createPlayer, resetTable, getCardFromDealer, createCard,removePairCards };
+export {
+  randDigit,
+  createPlayer,
+  resetTable,
+  getCardFromDealer,
+  createCard,
+  removePairCards,
+};
