@@ -80,7 +80,7 @@ class Game {
           await dealer.removeCard(cardFromDealer);
           await player.discardPile();
         } else {
-          await delay(3000);
+          await delay(2000);
           let max = dealer.cards.length - 1 < 0 ? 0 : dealer.cards.length - 1;
           let cardFromDealer = await randDigit(0, max);
           let cardReceive = dealer.cards[cardFromDealer];
