@@ -32,6 +32,9 @@ class Game {
     });
   }
 
+  constructor(active = true) {
+    this.active = active;
+  }
   async gameStart() {
     this.gameReset();
     this.deck.prepareDeck();
@@ -61,15 +64,23 @@ class Game {
   checkForThelastPlayer() {
     if (this.#players.length < 2) {
       this.#playerWon = true;
-      console.log("loser :", this.#players[0].playerName);
+      console.log(
+        "loser :",
+        this.#players[0].playerName,
+        "                    OldMaid :",
+        this.deck.oldMaid
+      );
     }
   }
 
   async gameTurns() {
-    while (!this.#playerWon) {
+    while (!this.#playerWon && this.active === true) {
       let i = 0;
-
+      if (!this.active) {
+        console.log("breaking the loop..............");
+      }
       for (let player of this.#players) {
+        if (!this.active) return; // check again after awaits
         let dealer =
           i === this.#players.length - 1
             ? this.#players[0]
@@ -77,20 +88,22 @@ class Game {
         console.log(`${player.playerName}'s turn...`);
         if (player.playerName === this.#humanPlayer.playerName) {
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
-          await dealer.removeCard(cardFromDealer);
-          await player.discardPile();
+           dealer.removeCard(cardFromDealer);
+           player.discardPile();
         } else {
-          await delay(2000);
+          if (!this.active) return; 
+          await delay(500);
           let max = dealer.cards.length - 1 < 0 ? 0 : dealer.cards.length - 1;
           let cardFromDealer = await randDigit(0, max);
           let cardReceive = dealer.cards[cardFromDealer];
           await player.receiveCards(cardReceive);
-          await dealer.removeCard(cardReceive);
-          player.discardPile();
+           dealer.removeCard(cardReceive);
+           player.discardPile();
         }
         i++;
         await this.checkPlayersWithNoCards();
         this.checkForThelastPlayer();
+        console.log(this.deck.oldMaid);
       }
     }
   }
@@ -108,15 +121,22 @@ class Game {
   }
 
   async _setMainPlayer() {
-    let index = await randDigit(0, this.#players.length - 1);
-    this.#humanPlayer = this.#players[index];
-    markMainPlayer(this.#humanPlayer.playerName);
+    // let index = await randDigit(0, this.#players.length - 1);
+    // this.#humanPlayer = this.#players[index];
+    // markMainPlayer(this.#humanPlayer.playerName);
   }
 
   gameReset() {
     this.deck = new Deck();
     this.#humanPlayer = {};
     resetTable();
+  }
+
+  stop() {
+    this.active = false;
+    console.log(
+      "----------------------stopping the game----------------------"
+    );
   }
 }
 

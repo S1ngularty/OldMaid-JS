@@ -5,14 +5,17 @@ function markMainPlayer(player) {
   header.className = "active";
 }
 
-function removeCardFromHand(player, card) {
+async function removeCardFromHand(player, card) {
   let main = document.getElementById(player);
   let hand = main.querySelector(`.hand`);
   let cardElement = hand.querySelector(`[data-card="${card}"]`);
-    cardElement.classList.replace("fade-in", "fade-out");
-  cardElement.classList.replace("show", "remove");
+  // console.log("remove card from hand", player, card, cardElement);
+  cardElement.classList.remove("fade-in");
+  cardElement.classList.add("fade-out");
+  cardElement.classList.remove("show");
+  cardElement.classList.add("remove");
   setTimeout(() => {
-    cardElement.remove();
+    hand.removeChild(cardElement);
   }, 500);
 }
 

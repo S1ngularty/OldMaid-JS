@@ -1,18 +1,17 @@
 import Game from "./src/models/GameModel.js";
-import { delay } from "./src/utils/gameAnimation.js";
+import { delay, resetTable } from "./src/utils/gameAnimation.js";
 
 let playerCount = 2;
 let game;
 document.querySelectorAll("#player-selection > *").forEach((child) => {
-  child.addEventListener("click", (e) => {
+  child.addEventListener("click", async (e) => {
     e.preventDefault();
-    let table = document.getElementById("table");
-    while (table.firstChild) {
-      table.removeChild(table.firstChild);
-    }
     child.classList = "active";
     document.getElementById(playerCount).className = "";
     playerCount = child.getAttribute("id");
+    console.log("Player mode",playerCount)
+    if(game instanceof Object) game.stop()
+      await delay(2000)
     game = new Game();
     initGame();
   });
@@ -22,5 +21,5 @@ async function initGame() {
   game.setupPlayers(playerCount);
   await game.gameStart();
   console.log(game);
-  game.gameTurns();
+  await game.gameTurns();
 }

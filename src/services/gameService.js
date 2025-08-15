@@ -53,12 +53,10 @@ async function createCard(player, card) {
     cardElement.classList.toggle("selected");
   });
 
-  playerHand.append(cardElement);
+  playerHand.appendChild(cardElement);
   setTimeout(() => {
     cardElement.classList.add("show");
   }, 50);
-
-  return cardElement;
 }
 
 function removePairCards(player, cards) {
@@ -66,10 +64,13 @@ function removePairCards(player, cards) {
   let hand = main.querySelector(`.hand`);
   cards.forEach((card) => {
     let cardElement = hand.querySelector(`[data-card="${card}"]`);
-    cardElement.classList.replace("fade-in", "fade-out");
-    cardElement.classList.replace("show", "remove");
+    // console.log("removing pair",card,cardElement)
+    cardElement.classList.remove("fade-in");
+    cardElement.classList.add("fade-out");
+    cardElement.classList.remove("show");
+    cardElement.classList.add("remove");
     setTimeout(() => {
-      cardElement.remove();
+      hand.removeChild(cardElement);
     }, 500);
   });
 }

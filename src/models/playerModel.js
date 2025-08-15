@@ -56,7 +56,7 @@ class Player {
     return this.#playerCards;
   }
 
-  async removeCard(card) {
+   removeCard(card) {
     return new Promise((resolve, reject) => {
       // console.log("remove card ", card);
       let index = this.#playerCards.indexOf(card);
