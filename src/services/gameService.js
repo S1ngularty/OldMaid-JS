@@ -44,7 +44,7 @@ async function createCard(player, card, hide) {
   let cardElement = document.createElement("div");
   cardElement.className = "card";
   cardElement.dataset.card = card;
-  if (!hide) {
+  if (hide) {
     cardElement.classList.add("flipped"); // start face-down
   } else {
     cardElement.classList.remove("flipped"); // start face-up

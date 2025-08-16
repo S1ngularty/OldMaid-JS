@@ -76,7 +76,7 @@ class Game {
   async gameTurns() {
     while (!this.#playerWon && this.active === true) {
       let i = 0;
-      if (!this.active) return
+      if (!this.active) return;
       for (let player of this.#players) {
         if (!this.active) return;
         let dealer =
@@ -86,8 +86,10 @@ class Game {
         console.log(`${player.playerName}'s turn...`);
         if (player.playerName === this.#humanPlayer.playerName) {
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
-          console.log(cardFromDealer)
+          console.log(cardFromDealer);
           dealer.removeCard(cardFromDealer);
+
+          await delay(1000);
           player.discardPile();
         } else {
           if (!this.active) return;
@@ -97,12 +99,15 @@ class Game {
           let cardReceive = dealer.cards[cardFromDealer];
           await player.receiveCards(cardReceive);
           dealer.removeCard(cardReceive);
+
+          await delay(1000);
           player.discardPile();
         }
         i++;
         await this.checkPlayersWithNoCards();
         this.checkForThelastPlayer();
-       }
+        await delay(2000);
+      }
     }
   }
 
@@ -118,10 +123,10 @@ class Game {
   }
 
   async _setMainPlayer() {
-    let index = await randDigit(0, this.#players.length - 1);
-    this.#humanPlayer = this.#players[index];
-    this.#humanPlayer.setHuman();
-    markMainPlayer(this.#humanPlayer.playerName);
+    // let index = await randDigit(0, this.#players.length - 1);
+    // this.#humanPlayer = this.#players[index];
+    // this.#humanPlayer.setHuman();
+    // markMainPlayer(this.#humanPlayer.playerName);
   }
 
   gameReset() {
