@@ -11,7 +11,7 @@ document.querySelectorAll("#player-selection > *").forEach((child) => {
     playerCount = child.getAttribute("id");
     console.log("Player mode",playerCount)
     if(game instanceof Object) game.stop()
-      await delay(2000)
+      await delay(1000)
     game = new Game();
     initGame();
   });

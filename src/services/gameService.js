@@ -35,8 +35,7 @@ function createPlayer(playerName) {
   table.append(main);
 }
 
-async function createCard(player, card) {
-  // console.log("creating a card ",card)
+async function createCard(player, card, hide) {
   let main = document.querySelector(`#${player}`);
   let playerHand = main.querySelector(".hand");
 
@@ -45,6 +44,11 @@ async function createCard(player, card) {
   cardElement.className = "card";
   cardElement.dataset.card = card;
   cardElement.classList.add("fade-in");
+  if(hide){
+     cardElement.classList.add('show-card')
+  }else{
+    cardElement.classList.add("hide-card")
+  }
   let cardIcon = parseCardIcon(cardSplit[1].trim());
   cardElement.textContent = `${cardSplit[0]} ${cardIcon}`;
 

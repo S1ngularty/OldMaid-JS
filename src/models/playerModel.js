@@ -7,24 +7,27 @@ import {
   removePairCards,
 } from "../services/gameService.js";
 
-import { markMainPlayer,removeCardFromHand } from "../services/playerService.js";
+import {
+  markMainPlayer,
+  removeCardFromHand,
+} from "../services/playerService.js";
 
 class Player {
   #originalCard = [];
   #playerCards = [];
   #discardPiles = [];
+  #human = false;
   constructor(name) {
     this.playerName = name;
   }
 
+  setHuman() {
+    this.#human = true;
+  }
+
   async receiveCards(card) {
-    // to be fixed tmr
     this.#playerCards.push(card);
-   await createCard(this.playerName, card);
-    // if (this.#playerCards.length >= 2) {
-    //   this.discardPile();
-    // }
-    // addToCards(this.playerName,card)
+    await createCard(this.playerName, card, this.#human);
   }
 
   sortCard() {
@@ -56,14 +59,14 @@ class Player {
     return this.#playerCards;
   }
 
-   removeCard(card) {
+  removeCard(card) {
     return new Promise((resolve, reject) => {
       // console.log("remove card ", card);
       let index = this.#playerCards.indexOf(card);
       // console.log(index);
       if (index >= 0) {
-       this.#playerCards.splice(index, 1);
-        removeCardFromHand(this.playerName,card)
+        this.#playerCards.splice(index, 1);
+        removeCardFromHand(this.playerName, card);
       }
       return resolve(true);
     });
