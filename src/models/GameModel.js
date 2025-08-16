@@ -76,11 +76,9 @@ class Game {
   async gameTurns() {
     while (!this.#playerWon && this.active === true) {
       let i = 0;
-      if (!this.active) {
-        console.log("breaking the loop..............");
-      }
+      if (!this.active) return
       for (let player of this.#players) {
-        if (!this.active) return; // check again after awaits
+        if (!this.active) return;
         let dealer =
           i === this.#players.length - 1
             ? this.#players[0]
@@ -88,6 +86,7 @@ class Game {
         console.log(`${player.playerName}'s turn...`);
         if (player.playerName === this.#humanPlayer.playerName) {
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
+          console.log(cardFromDealer)
           dealer.removeCard(cardFromDealer);
           player.discardPile();
         } else {
@@ -103,8 +102,7 @@ class Game {
         i++;
         await this.checkPlayersWithNoCards();
         this.checkForThelastPlayer();
-        console.log(this.deck.oldMaid);
-      }
+       }
     }
   }
 
@@ -112,7 +110,6 @@ class Game {
     let currPlayer = 0;
     let shuffleDeck = this.deck.shuffleDeck;
     for (let i = 0; i < shuffleDeck.length; i++) {
-      // console.log(this.#players[])
       this.#players[currPlayer].receiveCards(shuffleDeck[i]);
       this.#players[currPlayer].discardPile();
       currPlayer++;

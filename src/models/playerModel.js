@@ -41,11 +41,11 @@ class Player {
         this.#playerCards[i].split(" ")[0].trim() ===
         this.#playerCards[i + 1].split(" ")[0].trim()
       ) {
-        // console.log(
-        //   "pair",
-        //   this.#playerCards[i].split(" ")[0],
-        //   this.#playerCards[i + 1].split(" ")[0]
-        // );
+        console.log(
+          "pair",
+          this.#playerCards[i].split(" ")[0],
+          this.#playerCards[i + 1].split(" ")[0]
+        );
 
         let discard = this.#playerCards.splice(i, 2);
         this.#discardPiles.push(discard);
