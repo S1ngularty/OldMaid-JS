@@ -10,7 +10,8 @@ async function getCardFromDealer() {
     document.getElementById("table").addEventListener("click", (e) => {
       e.preventDefault();
       let target = e.target;
-      resolve(target.dataset.card);
+
+      resolve(target.closest(".card").dataset.card);
     });
   });
 
@@ -35,8 +36,7 @@ function createPlayer(playerName) {
   table.append(main);
 }
 
-async function createCard(player, card) {
-  // console.log("creating a card ",card)
+async function createCard(player, card, hide) {
   let main = document.querySelector(`#${player}`);
   let playerHand = main.querySelector(".hand");
 
@@ -44,13 +44,26 @@ async function createCard(player, card) {
   let cardElement = document.createElement("div");
   cardElement.className = "card";
   cardElement.dataset.card = card;
-  cardElement.classList.add("fade-in");
+  if (hide) {
+    cardElement.classList.add("flipped"); // start face-down
+  } else {
+    cardElement.classList.remove("flipped"); // start face-up
+  }
+  let cardInner = document.createElement("div");
+  cardInner.classList.add("card-inner");
+  let cardFront = document.createElement("div");
+  cardFront.classList.add("card-front");
   let cardIcon = parseCardIcon(cardSplit[1].trim());
-  cardElement.textContent = `${cardSplit[0]} ${cardIcon}`;
-
+  cardFront.textContent = `${cardSplit[0]} ${cardIcon}`;
+  let cardBack = document.createElement("div");
+  cardBack.classList.add("card-back");
+  cardInner.appendChild(cardFront);
+  cardInner.appendChild(cardBack);
+  cardElement.appendChild(cardInner);
   cardElement.addEventListener("click", (e) => {
     e.preventDefault();
-    cardElement.classList.toggle("selected");
+    cardElement.classList.toggle("flipped");  // flip animation
+  cardElement.classList.toggle("selected"); // keep selection glow
   });
 
   playerHand.appendChild(cardElement);

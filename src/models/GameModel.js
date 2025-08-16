@@ -39,9 +39,9 @@ class Game {
     this.gameReset();
     this.deck.prepareDeck();
     this._initPlayers();
+    await this._setMainPlayer();
     await this._drawCards();
     this.discardingPiles();
-    this._setMainPlayer();
   }
 
   discardingPiles() {
@@ -76,11 +76,9 @@ class Game {
   async gameTurns() {
     while (!this.#playerWon && this.active === true) {
       let i = 0;
-      if (!this.active) {
-        console.log("breaking the loop..............");
-      }
+      if (!this.active) return;
       for (let player of this.#players) {
-        if (!this.active) return; // check again after awaits
+        if (!this.active) return;
         let dealer =
           i === this.#players.length - 1
             ? this.#players[0]
@@ -88,22 +86,27 @@ class Game {
         console.log(`${player.playerName}'s turn...`);
         if (player.playerName === this.#humanPlayer.playerName) {
           let cardFromDealer = await this.#humanPlayer.getCardFromDealer();
-           dealer.removeCard(cardFromDealer);
-           player.discardPile();
+          console.log(cardFromDealer);
+          dealer.removeCard(cardFromDealer);
+
+          await delay(1000);
+          player.discardPile();
         } else {
-          if (!this.active) return; 
+          if (!this.active) return;
           await delay(500);
           let max = dealer.cards.length - 1 < 0 ? 0 : dealer.cards.length - 1;
           let cardFromDealer = await randDigit(0, max);
           let cardReceive = dealer.cards[cardFromDealer];
           await player.receiveCards(cardReceive);
-           dealer.removeCard(cardReceive);
-           player.discardPile();
+          dealer.removeCard(cardReceive);
+
+          await delay(1000);
+          player.discardPile();
         }
         i++;
         await this.checkPlayersWithNoCards();
         this.checkForThelastPlayer();
-        console.log(this.deck.oldMaid);
+        await delay(2000);
       }
     }
   }
@@ -112,7 +115,6 @@ class Game {
     let currPlayer = 0;
     let shuffleDeck = this.deck.shuffleDeck;
     for (let i = 0; i < shuffleDeck.length; i++) {
-      // console.log(this.#players[])
       this.#players[currPlayer].receiveCards(shuffleDeck[i]);
       this.#players[currPlayer].discardPile();
       currPlayer++;
@@ -123,6 +125,7 @@ class Game {
   async _setMainPlayer() {
     // let index = await randDigit(0, this.#players.length - 1);
     // this.#humanPlayer = this.#players[index];
+    // this.#humanPlayer.setHuman();
     // markMainPlayer(this.#humanPlayer.playerName);
   }
 
