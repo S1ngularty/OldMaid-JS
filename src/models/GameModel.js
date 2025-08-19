@@ -8,6 +8,7 @@ import {
   getCardFromDealer,
   createCard,
   removePairCards,
+  showAllCards
 } from "../services/gameService.js";
 import { delay } from "../utils/gameAnimation.js";
 

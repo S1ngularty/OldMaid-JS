@@ -44,10 +44,10 @@ async function createCard(player, card, hide) {
   let cardElement = document.createElement("div");
   cardElement.className = "card";
   cardElement.dataset.card = card;
-  if (hide) {
-    cardElement.classList.add("flipped"); // start face-down
+  if (!hide) {
+    cardElement.classList.add("flipped");
   } else {
-    cardElement.classList.remove("flipped"); // start face-up
+    cardElement.classList.remove("flipped");
   }
   let cardInner = document.createElement("div");
   cardInner.classList.add("card-inner");
@@ -62,8 +62,8 @@ async function createCard(player, card, hide) {
   cardElement.appendChild(cardInner);
   cardElement.addEventListener("click", (e) => {
     e.preventDefault();
-    cardElement.classList.toggle("flipped");  // flip animation
-  cardElement.classList.toggle("selected"); // keep selection glow
+    cardElement.classList.toggle("flipped");
+    cardElement.classList.toggle("selected");
   });
 
   playerHand.appendChild(cardElement);
@@ -96,6 +96,18 @@ function resetTable() {
   });
 }
 
+function showAllCards() {
+  let players = document.querySelectorAll("#table > *");
+  let allCards = [];
+  for (let player of players) {
+    let hand = player.querySelector(".hand");
+    let cards = hand.querySelectorAll(".card");
+    for (let card of cards) {
+      if (card.classList.contains("flipped")) card.classList.remove("flipped");
+    }
+  }
+}
+
 export {
   randDigit,
   createPlayer,
@@ -103,4 +115,5 @@ export {
   getCardFromDealer,
   createCard,
   removePairCards,
+  showAllCards,
 };
